@@ -38,6 +38,20 @@ GitHubPages::Dependencies.gems.each do |gem, version|
 end
 ```
 
+```php
+$arr = [];
+foreach ($arr as $item) {
+    
+}
+```
+
+{% highlight php %}
+<?php
+
+$loop = React\EventLoop\Factory::create();
+$client = new React\HttpClient\Client($loop);
+{% endhighlight %}
+
 #### [](#header-4)Header 4
 
 *   This is an unordered list following a header.
