@@ -1,24 +1,14 @@
-<header class="site-header" role="banner">
-
-  <div class="wrapper">
-    {% assign default_paths = site.pages | map: "path" %}
-    {% assign page_paths = site.header_pages | default: default_paths %}
-    <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
-    {% if page_paths %}
-      <nav class="site-nav">
-
-        <div class="trigger">
-          {% for path in page_paths %}
-            {% assign my_page = site.pages | where: "path", path | first %}
-            {% if my_page.title %}
-              {% if my_page.title contains "404" %}
-              {% else %}
-                <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      </nav>
-    {% endif %}
+<nav class="navbar navbar-static-top">
+  <div class="container" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Ildar Saitkulov</a>
+    </div>
   </div>
-</header>
+</nav>
