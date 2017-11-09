@@ -4,7 +4,7 @@ title: "Example content"
 img: reactphp.png
 tags: [PHP]
 category: Перевод
-introduction: There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+description: There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
 ---
 
 Hello!
