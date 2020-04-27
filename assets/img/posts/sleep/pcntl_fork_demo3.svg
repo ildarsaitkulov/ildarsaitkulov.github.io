@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="terminal" baseProfile="full" viewBox="0 0 1247 166" width="1247" version="1.1">
+    <defs>
+        <termtosvg:template_settings xmlns:termtosvg="https://github.com/nbedos/termtosvg">
+            <termtosvg:screen_geometry columns="150" rows="5"/>
+            <termtosvg:animation type="css"/>
+        </termtosvg:template_settings>
+        <style type="text/css" id="generated-style"><![CDATA[#screen {
+                font-family: 'DejaVu Sans Mono', monospace;
+                font-style: normal;
+                font-size: 14px;
+            }
+
+        text {
+            dominant-baseline: text-before-edge;
+            white-space: pre;
+        }
+    
+            :root {
+                --animation-duration: 10926ms;
+            }
+
+            @keyframes roll {
+                0.000%{transform:translateY(0px)}
+6.425%{transform:translateY(-102px)}
+7.450%{transform:translateY(-204px)}
+8.475%{transform:translateY(-306px)}
+9.866%{transform:translateY(-408px)}
+14.113%{transform:translateY(-510px)}
+16.118%{transform:translateY(-612px)}
+20.264%{transform:translateY(-714px)}
+21.344%{transform:translateY(-816px)}
+25.920%{transform:translateY(-918px)}
+30.496%{transform:translateY(-1020px)}
+35.072%{transform:translateY(-1122px)}
+39.649%{transform:translateY(-1224px)}
+44.225%{transform:translateY(-1326px)}
+48.801%{transform:translateY(-1428px)}
+53.377%{transform:translateY(-1530px)}
+57.954%{transform:translateY(-1632px)}
+62.539%{transform:translateY(-1734px)}
+67.115%{transform:translateY(-1836px)}
+71.691%{transform:translateY(-1938px)}
+76.268%{transform:translateY(-2040px)}
+80.844%{transform:translateY(-2142px)}
+85.420%{transform:translateY(-2244px)}
+86.381%{transform:translateY(-2346px)}
+86.409%{transform:translateY(-2448px)}
+86.445%{transform:translateY(-2550px)}
+90.848%{transform:translateY(-2652px)}
+100.000%{transform:translateY(-2652px)}
+            }
+
+            #screen_view {
+                animation-duration: 10926ms;
+                animation-iteration-count:infinite;
+                animation-name:roll;
+                animation-timing-function: steps(1,end);
+                animation-fill-mode: forwards;
+            }
+        ]]></style>
+        <style type="text/css" id="user-style">
+            /* The colors defined below are the default 16 colors used for rendering text of the terminal. Adjust
+               them as needed.
+               gjm8 color theme (source: https://terminal.sexy/) */
+            .foreground {fill: #f8f8f2}
+            .background {fill: #272822}
+            .color0 {fill: #272822}
+            .color1 {fill: #f92672}
+            .color2 {fill: #a6e22e}
+            .color3 {fill: #f4bf75}
+            .color4 {fill: #66d9ef}
+            .color5 {fill: #ae81ff}
+            .color6 {fill: #a1efe4}
+            .color7 {fill: #f8f8f2}
+            .color8 {fill: #75715e}
+            .color9 {fill: #fd971f}
+            .color10 {fill: #383830}
+            .color11 {fill: #49483e}
+            .color12 {fill: #a59f85}
+            .color13 {fill: #f5f4f1}
+            .color14 {fill: #cc6633}
+            .color15 {fill: #f9f8f5}
+        </style>
+    </defs>
+    <rect id="terminalui" class="background" width="100%" height="100%" ry="4.5826941"/>
+    <circle cx="24" cy="23" r="7" class="color1"/>
+    <circle cx="44" cy="23" r="7" class="color3"/>
+    <circle cx="64" cy="23" r="7" class="color2"/>
+    <svg id="screen" width="1200" height="85" x="23" y="50" viewBox="0 0 1200 85" preserveAspectRatio="xMidYMin slice"><rect class="background" height="100%" width="100%" x="0" y="0"/><defs><g id="g1"><text x="0" textLength="224" class="foreground">[saitkulov@localhost test]$ </text><text x="224" textLength="8" class="background"> </text></g><g id="g2"><text x="0" textLength="232" class="foreground">[saitkulov@localhost test]$ p</text><text x="232" textLength="8" class="background"> </text></g><g id="g3"><text x="0" textLength="240" class="foreground">[saitkulov@localhost test]$ ph</text><text x="240" textLength="8" class="background"> </text></g><g id="g4"><text x="0" textLength="248" class="foreground">[saitkulov@localhost test]$ php</text><text x="248" textLength="8" class="background"> </text></g><g id="g5"><text x="0" textLength="256" class="foreground">[saitkulov@localhost test]$ php </text><text x="256" textLength="8" class="background"> </text></g><g id="g6"><text x="0" textLength="264" class="foreground">[saitkulov@localhost test]$ php p</text><text x="264" textLength="8" class="background"> </text></g><g id="g7"><text x="0" textLength="376" class="foreground">[saitkulov@localhost test]$ php pcntl_test.php </text><text x="376" textLength="8" class="background"> </text></g><g id="g8"><text x="0" textLength="376" class="foreground">[saitkulov@localhost test]$ php pcntl_test.php </text></g><g id="g9"><text x="0" textLength="8" class="background"> </text></g><g id="g10"><text x="0" textLength="248" class="foreground">Starting thread with pid: 20834</text></g><g id="g11"><text x="0" textLength="152" class="foreground">Child is working...</text></g><g id="g12"><text x="0" textLength="16" class="foreground">^C</text><text x="16" textLength="8" class="background"> </text></g><g id="g13"><text x="0" textLength="16" class="foreground">^C</text></g><g id="g14"><text x="0" textLength="256" class="foreground">[saitkulov@localhost test]$ exit</text></g></defs><g id="screen_view"><g><rect x="224" y="0" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="0"/></g><g><rect x="232" y="102" width="8" height="17" class="foreground"/><use xlink:href="#g2" y="102"/></g><g><rect x="240" y="204" width="8" height="17" class="foreground"/><use xlink:href="#g3" y="204"/></g><g><rect x="248" y="306" width="8" height="17" class="foreground"/><use xlink:href="#g4" y="306"/></g><g><rect x="256" y="408" width="8" height="17" class="foreground"/><use xlink:href="#g5" y="408"/></g><g><rect x="264" y="510" width="8" height="17" class="foreground"/><use xlink:href="#g6" y="510"/></g><g><rect x="376" y="612" width="8" height="17" class="foreground"/><use xlink:href="#g7" y="612"/></g><g><use xlink:href="#g8" y="714"/><rect x="0" y="731" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="731"/></g><g><use xlink:href="#g8" y="816"/><use xlink:href="#g10" y="833"/><use xlink:href="#g11" y="850"/><rect x="0" y="867" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="867"/></g><g><use xlink:href="#g8" y="918"/><use xlink:href="#g10" y="935"/><use xlink:href="#g11" y="952"/><use xlink:href="#g11" y="969"/><rect x="0" y="986" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="986"/></g><g><use xlink:href="#g10" y="1020"/><use xlink:href="#g11" y="1037"/><use xlink:href="#g11" y="1054"/><use xlink:href="#g11" y="1071"/><rect x="0" y="1088" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1088"/></g><g><use xlink:href="#g11" y="1122"/><use xlink:href="#g11" y="1139"/><use xlink:href="#g11" y="1156"/><use xlink:href="#g11" y="1173"/><rect x="0" y="1190" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1190"/></g><g><use xlink:href="#g11" y="1224"/><use xlink:href="#g11" y="1241"/><use xlink:href="#g11" y="1258"/><use xlink:href="#g11" y="1275"/><rect x="0" y="1292" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1292"/></g><g><use xlink:href="#g11" y="1326"/><use xlink:href="#g11" y="1343"/><use xlink:href="#g11" y="1360"/><use xlink:href="#g11" y="1377"/><rect x="0" y="1394" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1394"/></g><g><use xlink:href="#g11" y="1428"/><use xlink:href="#g11" y="1445"/><use xlink:href="#g11" y="1462"/><use xlink:href="#g11" y="1479"/><rect x="0" y="1496" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1496"/></g><g><use xlink:href="#g11" y="1530"/><use xlink:href="#g11" y="1547"/><use xlink:href="#g11" y="1564"/><use xlink:href="#g11" y="1581"/><rect x="0" y="1598" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1598"/></g><g><use xlink:href="#g11" y="1632"/><use xlink:href="#g11" y="1649"/><use xlink:href="#g11" y="1666"/><use xlink:href="#g11" y="1683"/><rect x="0" y="1700" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1700"/></g><g><use xlink:href="#g11" y="1734"/><use xlink:href="#g11" y="1751"/><use xlink:href="#g11" y="1768"/><use xlink:href="#g11" y="1785"/><rect x="0" y="1802" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1802"/></g><g><use xlink:href="#g11" y="1836"/><use xlink:href="#g11" y="1853"/><use xlink:href="#g11" y="1870"/><use xlink:href="#g11" y="1887"/><rect x="0" y="1904" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="1904"/></g><g><use xlink:href="#g11" y="1938"/><use xlink:href="#g11" y="1955"/><use xlink:href="#g11" y="1972"/><use xlink:href="#g11" y="1989"/><rect x="0" y="2006" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2006"/></g><g><use xlink:href="#g11" y="2040"/><use xlink:href="#g11" y="2057"/><use xlink:href="#g11" y="2074"/><use xlink:href="#g11" y="2091"/><rect x="0" y="2108" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2108"/></g><g><use xlink:href="#g11" y="2142"/><use xlink:href="#g11" y="2159"/><use xlink:href="#g11" y="2176"/><use xlink:href="#g11" y="2193"/><rect x="0" y="2210" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2210"/></g><g><use xlink:href="#g11" y="2244"/><use xlink:href="#g11" y="2261"/><use xlink:href="#g11" y="2278"/><use xlink:href="#g11" y="2295"/><rect x="0" y="2312" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2312"/></g><g><use xlink:href="#g11" y="2346"/><use xlink:href="#g11" y="2363"/><use xlink:href="#g11" y="2380"/><use xlink:href="#g11" y="2397"/><rect x="16" y="2414" width="8" height="17" class="foreground"/><use xlink:href="#g12" y="2414"/></g><g><use xlink:href="#g11" y="2448"/><use xlink:href="#g11" y="2465"/><use xlink:href="#g11" y="2482"/><use xlink:href="#g13" y="2499"/><rect x="0" y="2516" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2516"/></g><g><use xlink:href="#g11" y="2550"/><use xlink:href="#g11" y="2567"/><use xlink:href="#g11" y="2584"/><use xlink:href="#g13" y="2601"/><rect x="224" y="2618" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="2618"/></g><g><use xlink:href="#g11" y="2652"/><use xlink:href="#g11" y="2669"/><use xlink:href="#g13" y="2686"/><use xlink:href="#g14" y="2703"/><rect x="0" y="2720" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="2720"/></g></g></svg>
+</svg>
