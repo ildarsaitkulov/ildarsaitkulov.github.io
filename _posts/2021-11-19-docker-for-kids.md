@@ -130,33 +130,49 @@ $ docker run -p 8080:8080   php-hello-server
 
 Замечательно, у нас удалось создать свой образ и запустить его!
 
-Но что будет если мы отредактируем `hello.php` и добавим `!!!`
-Например
-{% highlight php %}
-<?php
-echo 'hello, world!!!';
+### Docker compose
+
+С ростом количества контейнеров поддержка их становится затруднительным. И справится с этим нам поможет Docker compose.
+
+**Docker compose** - это инструмент для описания и запуска многоконтейнерных приложений. Для описания используется YAML файл.
+
+{% highlight YAML %}
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx-test # имя контейнера
+    build: # билд образа из dockerFile
+      context: . # путь в конексте которого будет сбилжен образ
+      dockerfile: ./dockerFiles/nginx/Dockerfile # путь до dockerFile из которого будет собран образ
+    ports: # проброс портов
+      - "80:80"
+    networks: # имя сети к котором будет подключен контейнер
+      - test-network
+    depends_on: # запуск контейнера зависить от
+      - php-fpm
+    volumes: #  монитрование директорий, директория-на-хост-машине:директория-в-докере
+      - ./:/var/www/hello.dev/
+  php-fpm:
+    container_name: php-fpm-test
+    build:
+      context: .
+      dockerfile: ./dockerFiles/php-fpm/Dockerfile
+    networks:
+      - test-network
+    volumes:
+      - ./:/var/www/hello.dev/
+  postgres:
+    container_name: postgres-test
+    image: postgres:14.1-alpine # тэг образа из https://hub.docker.com/
+    environment:
+      POSTGRES_PASSWORD: mysecretpass # переменные окружения которые использует контейнер
+    networks:
+      - test-network
+networks: # явно объявленные сети
+  test-network:
+    driver: bridge
 {% endhighlight %}
-    
-Мы не увидим изменений, но почему?
-<p>
-    <img src="/assets/img/posts/docker-for-kids/php-server-hello.png" alt="php-server-hello" style="max-width:100%;">  
-</p>
-Потому что,  файл `hello.php` был скопирован во время билда единожды и теперь в контейнере он лежит в неизменном состояинии.
-Как быть? В этом нам помогу **Volumes**
-
-### Volumes
-
-Volumes - это механизм для хранения данных вне контейнера, т.е на нашей хост машине.
-
-{% highlight bash %}
-$ docker run -p 8080:8080 -v /opt/src/docker-for-kids:/var/www/hello.dev/   php-hello-server
-{% endhighlight %}
-
-Таким нехитрым образом мы монтировали нужную нам директорию и все изменения в ней будут видный как в докере так и на нашей машине.
-
-<p>
-    <img src="/assets/img/posts/docker-for-kids/php-server-hello-2.png" alt="php-server-hello-2" style="max-width:100%;">  
-</p>
 
 <br>
 <br>
