@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Docker для самых маленьких"
+title: "Docker для самых маленьких. php-fpm + nginx + postgres"
 img: child2.jpg
 tags: [DOCKER, PHP]
 description: В этой статье мы познакомимся с основами технологии docker, научимся настраивать сети, пользоваться volume-мами, узнаем что такое docker-compose и развернём простое веб-приложение с использованием php-fpm + nginx + postgres.
