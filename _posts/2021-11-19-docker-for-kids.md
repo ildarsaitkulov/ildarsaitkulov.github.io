@@ -60,12 +60,15 @@ sudo docker run -p 8080:80 nginx:latest
 
 
 {% highlight Dockerfile %}
-FROM ubuntu:20.04
+FROM php:8.1.1-cli          #базовый образ
 
-COPY someFile.log /tmp/someFile.log
+WORKDIR /var/www/hello.dev/ #рабочая директория
 
-CMD tail -f /tmp/someFile.log
+COPY hello.php ./hello.php  #скопировать файл hello.php из директории указаной при билде в рабочую директорию
+
+CMD php -S 0.0.0.0:8080     #запустить встроенный веб-сервер php
 {% endhighlight %}
+
 
 
 - `FROM` - задаёт базовый (родительский) образ, должен идти первой командой
@@ -77,57 +80,83 @@ CMD tail -f /tmp/someFile.log
 
 [Подробнее об этих и других командах тут](https://docs.docker.com/engine/reference/builder/)
 
-`tail -f /tmp/someFile.log` - выводит содержимое конца файла 
-
 И давайте сбилдим наш докер образ из Dockerfile:
 
 {% highlight bash %}
-$ sudo docker build -t taillogfile -f dockerFiles/test/Dockerfile /opt/src/test_docker
-Sending build context to Docker daemon  20.48kB
-Step 1/3 : FROM ubuntu:20.04
----> ba6acccedd29
-Step 2/3 : COPY someFile.log /tmp/someFile.log
----> 58029edbe9db
-Step 3/3 : CMD tail -f /tmp/someFile.log
----> Running in 98beed0fec93
-Removing intermediate container 98beed0fec93
----> 35847abc8606
-Successfully built 35847abc8606
-Successfully tagged taillogfile:latest
-
+$ docker build -t php-hello-server -f /opt/src/docker-for-kids/dockerFiles/php-hello-server/Dockerfile /opt/src/docker-for-kids
+Sending build context to Docker daemon    105kB
+Step 1/4 : FROM php:8.1.1-cli
+8.1.1-cli: Pulling from library/php
+a2abf6c4d29d: Pull complete
+c5608244554d: Pull complete
+2d07066487a0: Pull complete
+1b6dfaf1958c: Pull complete
+40f5e6ee20ce: Pull complete
+718b027f9905: Pull complete
+3bf01f3e893c: Pull complete
+af85a153f85f: Pull complete
+e052a88c20f6: Pull complete
+Digest: sha256:444ba13f11741642a2692430f6678d47fb028442160ec9a5cfa9da7d3c0a9e07
+Status: Downloaded newer image for php:8.1.1-cli
+---> 13b9b1961ba3
+Step 2/4 : WORKDIR /var/www/hello.dev/
+---> Running in 266b47648946
+Removing intermediate container 266b47648946
+---> 69d85039cbd9
+Step 3/4 : COPY hello.php ./hello.php
+---> a58ebaeb4dbf
+Step 4/4 : CMD php -S 0.0.0.0:8080
+---> Running in 8258159599b7
+Removing intermediate container 8258159599b7
+---> 82c701bf6aea
+Successfully built 82c701bf6aea
+Successfully tagged php-hello-server:latest
 {% endhighlight %}
 
-- `-t taillogfile` - это тэг будущего образа
-- `-f dockerFiles/test/Dockerfile` - путь до Dockerfile
-- `/opt/src/test_docker` - директория в контексте которого будет сбилжен образ
+- `-t php-hello-server` - это тэг будущего образа
+- `-f /opt/src/docker-for-kids/dockerFiles/php-hello-server/Dockerfile` - путь до Dockerfile
+- `/opt/src/docker-for-kids` - директория в контексте которого будет сбилжен образ
 
-И запустим
+И запустим:
 
 {% highlight bash %}
-$ docker run taillogfile
-Hi
+$ docker run -p 8080:8080   php-hello-server
+[Sun Dec 26 12:44:35 2021] PHP 8.1.1 Development Server (http://0.0.0.0:8080) started
 {% endhighlight %}
+
+<p>
+    <img src="/assets/img/posts/docker-for-kids/php-server-hello.png" alt="php-server-hello" style="max-width:100%;">  
+</p>
 
 Замечательно, у нас удалось создать свой образ и запустить его!
 
-Но что будет если в конец нашего лог файла someFile.log добавить что-то?
+Но что будет если мы отредактируем `hello.php` и добавим `!!!`
 Например
-{% highlight bash %}
-echo "foobar" >> /opt/src/test_docker/someFile.log
+{% highlight php %}
+<?php
+echo 'hello, world!!!';
 {% endhighlight %}
-
+    
 Мы не увидим изменений, но почему?
-{% highlight bash %}
-$ docker run taillogfile
-Hi
-{% endhighlight %}
-
-Потому что, лог файл someFile.log был скопирован во время билда единожды и теперь в контейнере он лежит в неизменном состояинии.
+<p>
+    <img src="/assets/img/posts/docker-for-kids/php-server-hello.png" alt="php-server-hello" style="max-width:100%;">  
+</p>
+Потому что,  файл `hello.php` был скопирован во время билда единожды и теперь в контейнере он лежит в неизменном состояинии.
 Как быть? В этом нам помогу **Volumes**
 
 ### Volumes
 
 Volumes - это механизм для хранения данных вне контейнера, т.е на нашей хост машине.
+
+{% highlight bash %}
+$ docker run -p 8080:8080 -v /opt/src/docker-for-kids:/var/www/hello.dev/   php-hello-server
+{% endhighlight %}
+
+Таким нехитрым образом мы монтировали нужную нам директорию и все изменения в ней будут видный как в докере так и на нашей машине.
+
+<p>
+    <img src="/assets/img/posts/docker-for-kids/php-server-hello-2.png" alt="php-server-hello-2" style="max-width:100%;">  
+</p>
 
 <br>
 <br>
