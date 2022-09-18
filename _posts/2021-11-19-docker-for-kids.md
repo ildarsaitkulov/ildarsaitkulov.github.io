@@ -54,7 +54,7 @@ docker run -p 8080:80 nginx:latest
 
 ### Создание собственных образов
 
-А давайте попробуем создать свой образ взяв за основу `nginx:latest`?
+А давайте попробуем создать свой образ, взяв за основу `nginx:latest`?
 
 Докер умеет создавать образ читая текстовые команды записанный в файл, этот файл называется **Dockerfile**
 
@@ -69,10 +69,10 @@ COPY nginx-custom-welcome-page.html /usr/share/nginx/html/index.html
 {% endhighlight %}
 
 - `FROM` - задаёт базовый (родительский) образ, должен идти первой командой
-- `RUN` - выполняет команду и создаёт слой образа. Используется для установки в контейнер пакетов
-- `COPY` - копирует в контейнер файлы и директории
+- `RUN` - выполняет команду и создаёт слой образа
+- `COPY` - копирует в контейнер файлы
 
-Стандартная welcome-страница nginx-а заменяется на `nginx-custom-welcome-page.html`
+С помощью команды `COPY` мы заменяем стандартную welcome-страницу nginx-а на:
 ```html
 <!DOCTYPE html>
 <html>
@@ -84,7 +84,7 @@ COPY nginx-custom-welcome-page.html /usr/share/nginx/html/index.html
 
 [Подробнее об этих и других командах тут](https://docs.docker.com/engine/reference/builder/)
 
-И давайте сбилдим наш докер образ из Dockerfile:
+И давайте создадим наш докер образ из Dockerfile:
 
 
 ```bash
@@ -115,14 +115,14 @@ Successfully tagged nginx_custom:latest
 
 - `-t nginx_custom:latest` - это имя будущего образа, latest - это tag
 - `-f /opt/src/docker-for-kids/dockerFiles/nginx-custom/Dockerfile` - путь до Dockerfile
-- `/opt/src/docker-for-kids` - директория в контексте которого будет сбилжен образ
+- `/opt/src/docker-for-kids` - директория в контексте которого будет создан образ
 
 И запустим:
 
 ```bash
 $ docker run -p 8080:80 nginx_custom:latest
 ```
-![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/php-server-hello.png "enter image title here")
+![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/nginx-hello-custom.png "enter image title here")
 
 Замечательно, у нас удалось создать свой образ и запустить его!
 
@@ -132,14 +132,14 @@ $ docker run -p 8080:80 nginx_custom:latest
 
 **Docker compose** - это инструмент для описания и запуска многоконтейнерных приложений. Для описания используется YAML файл.
 
-```YAML
+{% highlight YAML %}
 version: '3'
 
 services:
   nginx:
     container_name: nginx-test # имя контейнера
     build: # билд образа из dockerFile
-      context: . # путь в контексте которого будет сбилжен образ
+      context: . # путь в контексте которого будет создан образ
       dockerfile: ./dockerFiles/nginx/Dockerfile # путь до dockerFile из которого будет собран образ
     ports: # проброс портов
       - "80:80"
@@ -168,7 +168,7 @@ services:
 networks: # явно объявленные сети
   test-network:
     driver: bridge
-```
+{% endhighlight %}
 
 Из этого всего думаю стоит пояснить про volumes.
 
@@ -176,7 +176,14 @@ networks: # явно объявленные сети
 
 И про **networks**. Подключая контейнеры к общей сети `test-network`, мы получаем возможность обращаться к нужному контейнеру по имени сервиса.
 
-К примеру в `index.php`
+Все примеры, а так же исходники dockerFile-ов можно взять из репозитория на [https://github.com/ildarsaitkulov/docker-for-kids](https://github.com/ildarsaitkulov/docker-for-kids)
+
+### Простое веб-приложение
+
+Создадим самое простое веб-приложение, которое показывает нам сообщение об успешном подключении к базе данных.
+Вместо адреса базы данных мы используем host=`postgres`, такое же имя нашего сервиса как и в YAML-файле
+
+`index.php`
 ```php
 <?php
 
@@ -190,23 +197,24 @@ try {
 }
 ```
 
-Вместо адреса базы данных мы используем host=`postgres`
 
-
-Теперь для того чтобы сбилдить все образы и запустить контейнеры нужно выполнить:
+Теперь, для того чтобы создать все образы и запустить контейнеры нужно выполнить:
 
 ```bash
 docker-compose up --build
 ```
 
-
+<br>  
 Выполним наш `index.php`
+
 ![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/index-pdo.png "enter image title here")
 
 И увидим успешное соединение с базой данных!
 
 Как и обещал в одной лишь командой мы развернули все сервисы, и это можно сделать где угодно, нужен только докер, и везде у вас будет единое окружение!
 
+В этой статье мы разобрались с основами работы с docker, развернули простое веб-приложение с использованием php-fpm + nginx + postgres.
+
 Докер отличный инструмент для быстрого развертывания, деплоя, тестирования. Подробнее можно почитать на [официальном сайте](https://www.docker.com/).
 
-Примеры из статьи, а так же исходники dockerFile-ов можно взять из репозитория на [https://github.com/ildarsaitkulov/docker-for-kids](https://github.com/ildarsaitkulov/docker-for-kids)
+Примеры из статьи для самостоятельного повторения [https://github.com/ildarsaitkulov/docker-for-kids](https://github.com/ildarsaitkulov/docker-for-kids)
