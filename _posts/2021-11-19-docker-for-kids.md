@@ -8,16 +8,16 @@ comments: true
 ---
 
 
-
 ## Docker для самых маленьких. php-fpm + nginx + postgres
-<br>
-Представьте что вы начинаете работать над новым проектом и вам нужно его развернуть, а в современных реалиях это огромные приложения с множествами сервисов. И как было бы круто иметь магическую команду "установи мне всё и где угодно", неплохо верно?
-Решение есть - docker!
+
+
+Представьте что вы приходите в новый проект, и для начала вам нужно его развернуть. И как было бы круто иметь магическую команду "установи мне всё и где угодно", неплохо верно?
+Решение есть - docker! В этой статье мы разберёмся с основами работы docker, и в конце развернём простое веб-приложение с использованием php-fpm + nginx + postgres.
 
 
 **Docker** - это открытая платформа для разработки, доставки и запуска приложений. Базовым элементом которого являются контейнеры.
-<br>
-### Контейнер 
+
+### Контейнер
 
 Простыми словами **контейнер** - это некая песочница для запуска одного процесса на вашей машине которая изолирована от других процессов.
 
@@ -30,103 +30,99 @@ comments: true
 
 ### Сразу в бой!
 
-Концепцию докера легче понять на практике. Например, давайте попробуем запустить `nginx` на нашем компьютере:
+Концепцию докера легче понять на практике. Например, давайте попробуем запустить http-сервер `nginx` на нашем компьютере.
 
-{% highlight bash %}
+```bash
 docker run -p 8080:80 nginx:latest
-{% endhighlight %}
+```
 
-<br>
 Идём в браузер, открываем `127.0.0.1:8080`. И уже видим страницу приветствия nginx! И всё!
 
-<p align="center">
-    <img src="/assets/img/posts/docker-for-kids/nginx-hello.png" alt="nginx hello" style="max-width:100%;">  
-</p>
-<br>
-Теперь разберёмся подробнее что тут происходит. Команда `docker run nginx:latest` запускает контейнер, а `nginx:latest` - это название **докер образа (Docker image)**.
+![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/nginx-hello.png "enter image title here")
 
+Теперь разберёмся подробнее, что тут происходит.
+
+Команда `docker run nginx:latest` делает следующее: если ранее докер образ `nginx:latest` не скачивался, то скачивает его из [Docker Hub](https://hub.docker.com/) и запускает контейнер используя его.
 
 ### Докер образы и Docker Hub
 
-**Докер образ** - шаблон для создания контейнеров. Представляет собой исполняемый пакет, содержащий все необходимое для запуска приложения: код, среду выполнения, библиотеки, переменные окружения и файлы конфигурации.
+**Докер образ (Docker image)** - шаблон для создания контейнеров. Представляет собой исполняемый пакет, содержащий все необходимое для запуска приложения: код, среду выполнения, библиотеки, переменные окружения и файлы конфигурации.
 
-Откуда мы можем взять этот образ? Верно, из [Docker Hub](https://hub.docker.com/) - это публичный репозиторий образов, куда может любой желающий загрузить его и скачать. На [странице nginx в Docker Hub](https://hub.docker.com/_/nginx?tab=tags) как раз можно найти тот самый наш образ [`nginx:latest`](https://hub.docker.com/layers/nginx/library/nginx/latest/images/sha256-b6a3554b020680898ad2d36f2211e03154766cb9841bf46f64d6259b12c3af5c?context=explore)
+**Docker Hub** - это публичный репозиторий образов, куда может любой желающий загрузить его или скачать. На [странице nginx в Docker Hub](https://hub.docker.com/_/nginx?tab=tags) как раз можно найти тот самый наш образ [nginx:latest](https://hub.docker.com/layers/nginx/library/nginx/latest/images/sha256-b6a3554b020680898ad2d36f2211e03154766cb9841bf46f64d6259b12c3af5c?context=explore), latest - это tag который ссылается на самый свежий образ
 
 Теперь мы разобрались что `nginx:latest` - это образ, который содержит всё для запуска nginx, и он лежит на Docker Hub. А что за опция `-p 8080:80` ? Ранее уже упоминалось, что процессы в контейнерах запускаются в изоляции от других процессов. И для того чтобы мы смогли обратиться к nginx, нужно пробросить порт на нашу машину `8080` - порт на нашей машине, `80` - это порт nginx внутри контейнера.
 
-А давайте попробуем создать свой образ? Докер умеет создавать образ читая текстовые команды записанный в файл, этот файл называется **Dockerfile**
+### Создание собственных образов
+
+А давайте попробуем создать свой образ взяв за основу `nginx:latest`?
+
+Докер умеет создавать образ читая текстовые команды записанный в файл, этот файл называется **Dockerfile**
 
 Пример простейшего Dockerfile:
 
-
 {% highlight Dockerfile %}
-FROM php:8.1.1-cli          #базовый образ
+FROM nginx:latest
 
-WORKDIR /var/www/hello.dev/ #рабочая директория
+RUN echo 'Hi, we are building custom docker image from nginx:latest!'
 
-COPY hello.php ./hello.php  #скопировать файл hello.php из директории указанной при билде в рабочую директорию
-
-CMD php -S 0.0.0.0:8080     #запустить встроенный веб-сервер php
+COPY nginx-custom-welcome-page.html /usr/share/nginx/html/index.html
 {% endhighlight %}
 
-
-
 - `FROM` - задаёт базовый (родительский) образ, должен идти первой командой
-- `COPY` - копирует в контейнер файлы и директории
-- `CMD` - команда для запуска контейнера (должна быть только одна)
-- `ADD` - копирует файлы, директории или скачивает по ссылке и добавляет их в файловую систему образа
 - `RUN` - выполняет команду и создаёт слой образа. Используется для установки в контейнер пакетов
-- `WORKDIR` - устанавливает рабочую директорию для последующих инструкций
+- `COPY` - копирует в контейнер файлы и директории
+
+Стандартная welcome-страница nginx-а заменяется на `nginx-custom-welcome-page.html`
+```html
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Welcome to custom nginx page!</h1>
+</body>
+</html>
+```
 
 [Подробнее об этих и других командах тут](https://docs.docker.com/engine/reference/builder/)
 
 И давайте сбилдим наш докер образ из Dockerfile:
 
-{% highlight bash %}
-$ docker build -t php-hello-server -f /opt/src/docker-for-kids/dockerFiles/php-hello-server/Dockerfile /opt/src/docker-for-kids
-Sending build context to Docker daemon    105kB
-Step 1/4 : FROM php:8.1.1-cli
-8.1.1-cli: Pulling from library/php
-a2abf6c4d29d: Pull complete
-c5608244554d: Pull complete
-2d07066487a0: Pull complete
-1b6dfaf1958c: Pull complete
-40f5e6ee20ce: Pull complete
-718b027f9905: Pull complete
-3bf01f3e893c: Pull complete
-af85a153f85f: Pull complete
-e052a88c20f6: Pull complete
-Digest: sha256:444ba13f11741642a2692430f6678d47fb028442160ec9a5cfa9da7d3c0a9e07
-Status: Downloaded newer image for php:8.1.1-cli
----> 13b9b1961ba3
-Step 2/4 : WORKDIR /var/www/hello.dev/
----> Running in 266b47648946
-Removing intermediate container 266b47648946
----> 69d85039cbd9
-Step 3/4 : COPY hello.php ./hello.php
----> a58ebaeb4dbf
-Step 4/4 : CMD php -S 0.0.0.0:8080
----> Running in 8258159599b7
-Removing intermediate container 8258159599b7
----> 82c701bf6aea
-Successfully built 82c701bf6aea
-Successfully tagged php-hello-server:latest
-{% endhighlight %}
 
-- `-t php-hello-server` - это тэг будущего образа
-- `-f /opt/src/docker-for-kids/dockerFiles/php-hello-server/Dockerfile` - путь до Dockerfile
+```bash
+$ docker build -t nginx_custom:latest -f /opt/src/docker-for-kids/dockerFiles/nginx-custom/Dockerfile /opt/src/docker-for-kids
+Sending build context to Docker daemon  139.3kB
+Step 1/3 : FROM nginx:latest
+latest: Pulling from library/nginx
+31b3f1ad4ce1: Pull complete 
+fd42b079d0f8: Pull complete 
+30585fbbebc6: Pull complete 
+18f4ffdd25f4: Pull complete 
+9dc932c8fba2: Pull complete 
+600c24b8ba39: Pull complete 
+Digest: sha256:0b970013351304af46f322da1263516b188318682b2ab1091862497591189ff1
+Status: Downloaded newer image for nginx:latest
+ ---> 2d389e545974
+Step 2/3 : RUN echo 'Hi, we are building custom docker image from nginx:latest!'
+ ---> Running in 05ffd060061f
+Hi, we are building custom docker image from nginx:latest!
+Removing intermediate container 05ffd060061f
+ ---> 9ac62be4252a
+Step 3/3 : COPY nginx-custom-welcome-page.html /usr/share/nginx/html/index.html
+ ---> 704121601a45
+Successfully built 704121601a45
+Successfully tagged nginx_custom:latest
+
+```
+
+- `-t nginx_custom:latest` - это имя будущего образа, latest - это tag
+- `-f /opt/src/docker-for-kids/dockerFiles/nginx-custom/Dockerfile` - путь до Dockerfile
 - `/opt/src/docker-for-kids` - директория в контексте которого будет сбилжен образ
 
 И запустим:
 
-{% highlight bash %}
-$ docker run -p 8080:8080   php-hello-server
-[Sun Dec 26 12:44:35 2021] PHP 8.1.1 Development Server (http://0.0.0.0:8080) started
-{% endhighlight %}
-
-<p>
-    <img src="/assets/img/posts/docker-for-kids/php-server-hello.png" alt="php-server-hello" style="max-width:100%;">  
-</p>
+```bash
+$ docker run -p 8080:80 nginx_custom:latest
+```
+![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/php-server-hello.png "enter image title here")
 
 Замечательно, у нас удалось создать свой образ и запустить его!
 
@@ -136,7 +132,7 @@ $ docker run -p 8080:8080   php-hello-server
 
 **Docker compose** - это инструмент для описания и запуска многоконтейнерных приложений. Для описания используется YAML файл.
 
-{% highlight YAML %}
+```YAML
 version: '3'
 
 services:
@@ -172,7 +168,7 @@ services:
 networks: # явно объявленные сети
   test-network:
     driver: bridge
-{% endhighlight %}
+```
 
 Из этого всего думаю стоит пояснить про volumes.
 
@@ -181,26 +177,31 @@ networks: # явно объявленные сети
 И про **networks**. Подключая контейнеры к общей сети `test-network`, мы получаем возможность обращаться к нужному контейнеру по имени сервиса.
 
 К примеру в `index.php`
-{% highlight php %}
+```php
 <?php
-$pdo = new \PDO("pgsql:host=postgres;dbname=postgres", 'postgres', 'mysecretpass');
-var_dump($pdo);
-{% endhighlight %}
+
+try {
+    $pdo = new \PDO("pgsql:host=postgres;dbname=postgres", 'postgres', 'mysecretpass');
+    echo "Подключение к базе данных установлено! <br>";
+
+    return;
+} catch (PDOException $exception) {
+    echo "Ошибка при подключении к базе данных<br><b>{$exception->getMessage()}</b><br>";
+}
+```
 
 Вместо адреса базы данных мы используем host=`postgres`
 
 
 Теперь для того чтобы сбилдить все образы и запустить контейнеры нужно выполнить:
 
-{% highlight bash %}
+```bash
 docker-compose up --build
-{% endhighlight %}
+```
 
 
 Выполним наш `index.php`
-<p>
-    <img src="/assets/img/posts/docker-for-kids/index-pdo.png" alt="nginx hello" style="max-width:100%;">  
-</p>
+![enter image description here](https://ildarsaitkulov.github.io/assets/img/posts/docker-for-kids/index-pdo.png "enter image title here")
 
 И увидим успешное соединение с базой данных!
 
