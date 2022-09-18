@@ -217,4 +217,4 @@ docker-compose up --build
 
 Докер отличный инструмент для быстрого развертывания, деплоя, тестирования. Подробнее можно почитать на [официальном сайте](https://www.docker.com/).
 
-Примеры из статьи для самостоятельного повторения [https://github.com/ildarsaitkulov/docker-for-kids](https://github.com/ildarsaitkulov/docker-for-kids)
+Исходники файлов из статьи для самостоятельного повторения [https://github.com/ildarsaitkulov/docker-for-kids](https://github.com/ildarsaitkulov/docker-for-kids)
