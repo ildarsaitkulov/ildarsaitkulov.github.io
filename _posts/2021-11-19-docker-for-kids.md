@@ -138,7 +138,7 @@ version: '3'
 services:
   nginx:
     container_name: nginx-test # имя контейнера
-    build: # билд образа из dockerFile
+    build: # создать образа из dockerFile
       context: . # путь в контексте которого будет создан образ
       dockerfile: ./dockerFiles/nginx/Dockerfile # путь до dockerFile из которого будет собран образ
     ports: # проброс портов
