@@ -69,7 +69,6 @@ COPY nginx-custom-welcome-page.html /usr/share/nginx/html/index.html
 {% endhighlight %}
 
 - `FROM` - задаёт базовый (родительский) образ, должен идти первой командой
-- `RUN` - выполняет команду и создаёт слой образа
 - `COPY` - копирует в контейнер файлы
 
 С помощью команды `COPY` мы заменяем стандартную welcome-страницу nginx-а на:
@@ -115,7 +114,7 @@ Successfully tagged nginx_custom:latest
 
 - `-t nginx_custom:latest` - это имя будущего образа, latest - это tag
 - `-f /opt/src/docker-for-kids/dockerFiles/nginx-custom/Dockerfile` - путь до Dockerfile
-- `/opt/src/docker-for-kids` - директория в контексте которого будет создан образ
+- `/opt/src/docker-for-kids` - директория в контексте которого будет создан образ, процесс создания образа может ссылаться на любой из файлов в контексте. Например, команда COPY
 
 И запустим:
 
@@ -145,7 +144,7 @@ services:
       - "80:80"
     networks: # имя сети к котором будет подключен контейнер
       - test-network
-    depends_on: # запуск контейнера зависит от
+    depends_on: # данный сервис будет запущен только после запуска сервиса под именем php-fpm 
       - php-fpm
     volumes: #  монтирование директорий, директория-на-хост-машине:директория-в-докере
       - ./:/var/www/hello.dev/
@@ -197,6 +196,7 @@ try {
 }
 ```
 
+`PDO` - это интерфейс для доступа к базам данных в PHP, [подробнее](https://www.php.net/manual/en/intro.pdo.php).
 
 Теперь, для того чтобы создать все образы и запустить контейнеры нужно выполнить:
 
